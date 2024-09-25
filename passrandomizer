@@ -1,0 +1,32 @@
+from googletrans import Translator
+
+def split_password(password):
+    length = len(password)
+    part_size = length // 4
+    parts = [
+        password[:part_size],
+        password[part_size:2*part_size],
+        password[2*part_size:3*part_size],
+        password[3*part_size:]
+    ]
+    return parts
+
+def change_password_parts_to_languages(password):
+    translator = Translator()
+    parts = split_password(password)
+
+    tamil_part = translator.translate(parts[0], dest='ta').text if parts[0] else ''
+    urdu_part = translator.translate(parts[1], dest='ur').text if parts[1] else ''
+    hindi_part = translator.translate(parts[2], dest='hi').text if parts[2] else ''
+    gujarati_part = translator.translate(parts[3], dest='gu').text if parts[3] else ''
+
+    combined_password = tamil_part + urdu_part + hindi_part + gujarati_part
+    return combined_password
+
+def password_acceptor():
+    password = input("Enter your password: ")
+    new_password = change_password_parts_to_languages(password)
+    print("\nYour password in different languages:")
+    print(new_password)
+
+password_acceptor()
